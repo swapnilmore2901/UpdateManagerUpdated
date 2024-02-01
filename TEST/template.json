@@ -82,8 +82,8 @@
                                     "tagSettings": {
                                         "filterOperator": "All",
                                         "tags": {
-                                            "Service Plan": [
-                                                "TEST"
+                                            "service_class": [
+                                                "test"
                                             ]
                                         }
                                     }
