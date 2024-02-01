@@ -82,8 +82,8 @@
                                     "tagSettings": {
                                         "filterOperator": "All",
                                         "tags": {
-                                            "Service Plan": [
-                                                "BRONZE"
+                                            "service_class": [
+                                                "bronze"
                                             ]
                                         }
                                     }
