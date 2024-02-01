@@ -16,8 +16,8 @@ steps:
     azureSubscription: 'anugrah pay as you go(1)(cbf8b966-9488-4fc7-a133-b65c3b0285a8)'
     ScriptType: 'InlineScript'
     Inline: |
-      $resourceGroupName = "rg-advm-prod-shared-001"
-      $vmName = "TestVmGold"
+      $resourceGroupName = "rg-aib-management-prod-shared-001"
+      $vmName = "TestVMBronze"
       $subscriptionId = "cbf8b966-9488-4fc7-a133-b65c3b0285a8"
        
        
@@ -28,12 +28,12 @@ steps:
               [string]$subscriptionId
           )
        
-          $vmStatus = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
+          $vm = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
        
-          if ($vmStatus.Statuses[1].Code -eq 'PowerState/Stopped') {
+          if ($vm.Statuses[1].DisplayStatus -eq 'VM deallocated') {
               Start-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -SubscriptionId $subscriptionId
               Write-Host "Azure VM '$vmName' started."
-          } elseif ($vmStatus.Statuses[1].Code -eq 'PowerState/running') {
+          } elseif ($vm.Statuses[1].DisplayStatus -eq 'VM running') {
               Stop-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Force -SubscriptionId $subscriptionId
               Write-Host "Azure VM '$vmName' stopped."
           } else {
