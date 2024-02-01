@@ -47,7 +47,7 @@
 	    "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-08-01",
             "name": "[parameters('maintenanceconfigurations_goldserverpatching_name')]",
-            "subscriptionId": "cd1015e8-b39e-47c8-9efb-a2cf7709a668",
+            "subscriptionId": "cbf8b966-9488-4fc7-a133-b65c3b0285a8",
             "location": "uksouth",
             "dependsOn": [
                 "[concat('Microsoft.Maintenance/maintenanceConfigurations/', parameters('maintenanceconfigurations_goldserverpatching_name'))]"
@@ -64,7 +64,7 @@
                             "type": "Microsoft.Maintenance/configurationAssignments",
                             "name": "goldserverpatchingDynamicAssignment1",
                             "properties": {
-                                "maintenanceConfigurationId": "/subscriptions/cd1015e8-b39e-47c8-9efb-a2cf7709a668/resourcegroups/rg-updatemanager-shared-001/providers/microsoft.maintenance/maintenanceconfigurations/goldserverpatching",
+                                "maintenanceConfigurationId": "/subscriptions/cbf8b966-9488-4fc7-a133-b65c3b0285a8/resourcegroups/rg-updatemanager-shared-001/providers/microsoft.maintenance/maintenanceconfigurations/goldserverpatching",
                                 "filter": {
                                     "resourceTypes": [
                                         "microsoft.compute/virtualmachines"
