@@ -1,0 +1,41 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'anugrah pay as you go(1)(cbf8b966-9488-4fc7-a133-b65c3b0285a8)'
+    ScriptType: 'InlineScript'
+    Inline: |
+      $resourceGroupName = "rg-aib-management-prod-shared-001"
+      $vmName = "TestVMBronze"
+      $subscriptionId = "cbf8b966-9488-4fc7-a133-b65c3b0285a8"
+       
+       
+      function Start/Stop-AzureVM {
+          param (
+              [string]$resourceGroupName,
+              [string]$vmName,
+              [string]$subscriptionId
+          )
+       
+          $vm = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
+       
+          if ($vm.Statuses[1].DisplayStatus -eq 'VM deallocated') {
+              Start-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -SubscriptionId $subscriptionId
+              Write-Host "Azure VM '$vmName' started."
+          } elseif ($vm.Statuses[1].DisplayStatus -eq 'VM running') {
+              Stop-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Force -SubscriptionId $subscriptionId
+              Write-Host "Azure VM '$vmName' stopped."
+          } else {
+              Write-Host "Unknown VM state for '$vmName'."
+          }
+      }
