@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "maintenanceconfigurations_testserverpatching_name": {
+            "defaultValue": "testserverpatching",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.maintenance/maintenanceconfigurations",
+            "apiVersion": "2023-09-01-preview",
+            "name": "[parameters('maintenanceconfigurations_testserverpatching_name')]",
+            "location": "uksouth",
+            "properties": {
+                "extensionProperties": {
+                    "inGuestPatchMode": "User"
+                },
+                "maintenanceScope": "InGuestPatch",
+                "maintenanceWindow": {
+                    "startDateTime": "2023-12-20 22:00",
+                    "duration": "03:55",
+                    "timeZone": "GMT Standard Time",
+                    "recurEvery": "1Month Second Tuesday Offset2"
+                },
+                "visibility": "Custom",
+                "installPatches": {
+                    "rebootSetting": "AlwaysReboot",
+                    "windowsParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    },
+                    "linuxParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-08-01",
+            "name": "[parameters('maintenanceconfigurations_testserverpatching_name')]",
+            "subscriptionId": "cd1015e8-b39e-47c8-9efb-a2cf7709a668",
+            "location": "uksouth",
+            "dependsOn": [
+                "[concat('Microsoft.Maintenance/maintenanceConfigurations/', parameters('maintenanceconfigurations_testserverpatching_name'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2023-04-01",
+                            "type": "Microsoft.Maintenance/configurationAssignments",
+                            "name": "testserverpatchingDynamicAssignment1",
+                            "properties": {
+                                "maintenanceConfigurationId": "/subscriptions/cd1015e8-b39e-47c8-9efb-a2cf7709a668/resourcegroups/rg-updatemanager-shared-001/providers/microsoft.maintenance/maintenanceconfigurations/testserverpatching",
+                                "filter": {
+                                    "resourceTypes": [
+                                        "microsoft.compute/virtualmachines"
+                                    ],
+                                    "resourceGroups": [
+                                        "rg-aib-management-prod-shared-001"
+                                    ],
+                                    "osTypes": [
+                                        "Linux",
+                                        "Windows"
+                                    ],
+                                    "locations": [
+                                        "uksouth"
+                                    ],
+                                    "tagSettings": {
+                                        "filterOperator": "All",
+                                        "tags": {
+                                            "Service Plan": [
+                                                "TEST"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "parameters": {}
+            },
+            "tags": {}
+        }
+    ]
+}
