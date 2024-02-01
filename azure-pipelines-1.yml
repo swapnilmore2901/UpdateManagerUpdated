@@ -30,12 +30,12 @@ steps:
          
             $vmStatus = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
          
-            if ($vmStatus.Statuses[1].Code -eq 'PowerState/Stopped') {
+            if ($vmStatus.Statuses[1].Code -eq 'PowerState/Stopped (deallocated)') {
                 Start-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -SubscriptionId $subscriptionId
                 Write-Host "Azure VM '$vmName' started."
             } elseif ($vmStatus.Statuses[1].Code -eq 'PowerState/Running') {
                 Stop-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Force -SubscriptionId $subscriptionId
-                Write-Host "Azure VM '$vmName' stopped."
+                Write-Host "Azure VM '$vmName' Stopped (deallocated)."
             } else {
                 Write-Host "Unknown VM state for '$vmName'."
             }
