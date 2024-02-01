@@ -26,8 +26,6 @@ steps:
               [string]$resourceGroupName,
               [string]$vmName,
               [string]$subscriptionId
-      		[ValidateSet("Start", "Stop")]
-      		[string]$VmAction
           )
        
           $vmStatus = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
