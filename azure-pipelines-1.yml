@@ -33,7 +33,7 @@ steps:
             if ($vmStatus.Statuses[1].Code -eq 'PowerState/Stopped') {
                 Start-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -SubscriptionId $subscriptionId
                 Write-Host "Azure VM '$vmName' started."
-            } elseif ($vmStatus.Statuses[1].Code -eq 'PowerState/running') {
+            } elseif ($vmStatus.Statuses[1].Code -eq 'PowerState/Running') {
                 Stop-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Force -SubscriptionId $subscriptionId
                 Write-Host "Azure VM '$vmName' stopped."
             } else {
