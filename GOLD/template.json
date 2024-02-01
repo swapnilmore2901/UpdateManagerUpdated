@@ -82,8 +82,8 @@
                                     "tagSettings": {
                                         "filterOperator": "All",
                                         "tags": {
-                                            "Service Plan": [
-                                                "GOLD"
+                                            "service_class": [
+                                                "gold"
                                             ]
                                         }
                                     }
